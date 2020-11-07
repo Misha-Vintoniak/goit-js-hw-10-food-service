@@ -1,46 +1,31 @@
-
 const Theme = {
-    LIGHT: 'light-theme',
-    DARK: 'dark-theme',
-}
+  LIGHT: 'light-theme',
+  DARK: 'dark-theme',
+};
 
 const body = document.body;
-const themeSwitchToggle = document.querySelector('.theme-switch__toggle')
+const themeSwitchToggle = document.querySelector('.theme-switch__toggle');
+const useTheme = localStorage.getItem('theme');
 
-const defaultTheme = document.body.classList.add(Theme.LIGHT);
-defaultTheme();
+addTheme();
+themeSwitchToggle.addEventListener('change', onChangeTheme);
 
-themeSwitchToggle.addEventListener('change', onChanheTheme);
-
-const useTheme = localStorage.setItem( 'theme', currentTheme)
-
-
-
-
-function onChanheTheme(){
-    const defaultTheme = document.body.classList.add(Theme.DARK); 
-    
-    const theme = defaultTheme === document.body.classList.toggle(Theme.LIGHT ? Theme.DARK : Theme.LIGHT);
-    
-    localStorage.setItem('theme', theme);
-   
+function addTheme() {
+  if (useTheme) {
+    document.body.classList.add(Theme.LIGHT);
+  }
+  if (document.body.classList.contains(Theme.DARK)) {
+    themeSwitchToggle.checked = true;
+  }
 }
 
-
-
-/*
-Добавь функционал изменения темы при нажатии (событие change) 
-на чекбокс #theme-switch-toggle в тулбаре.
-
-    По умолчанию тема светлая.
-    При изменении темы, необходимо добавлять на элемент body класс 
-    light-theme или dark-theme.
-    Выбранная тема должна сохраняться между перезагрузками страницы. 
-    Для хранения темы используй localStorage.
-    Если при загрузке страницы тема тёмная, не забудь поставить 
-    свойство checked у чекбокса #theme-switch-toggle в true, 
-    чтобы ползунок сдвинулся в правильное положение.
-
-Для удобства хранения списка тем используй такое перечисление.
-
-;*/
+function onChangeTheme(e) {
+  if (e.target.checked === true) {
+    document.body.classList.add(Theme.LIGHT);
+    document.body.classList.replace(Theme.LIGHT, Theme.DARK);
+    localStorage.setItem('theme', Theme.DARK);
+  } else {
+    document.body.classList.replace(Theme.DARK, Theme.LIGHT);
+    localStorage.setItem('theme', Theme.LIGHT);
+  }
+}
